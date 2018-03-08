@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head><title>SAMPLE</title></head>
+<script src="web3.min.js"></script>
+<body style="background-color:pink;">
+
+<form>
+
+<fieldset>
+		<input type="text" id="d"  placeholder="ADDRESS" />
+		<input type="text" id="e"  placeholder="AMOUNT" />
+		<input type="button" value="TRANSFER" onclick="transfer()" />
+</fieldset>
+<fieldset>
+		
+		<input type="text" id="f"  placeholder="AMOUNT" />
+		<input type="button" value="MINT" onclick="mint()" />
+</fieldset>
+<fieldset>
+		<input type="text" id="g"  placeholder="ADDRESS" />
+		<input type="button" value="CHECK BALANCE" onclick="balanceOf()" />
+</fieldset>
+</form>
+</body>
+
+<script>
+		web3.eth.defaultAccount = web3.eth.accounts[0];
+		var abi=web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_add",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "amnt",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_to",
+				"type": "address"
+			},
+			{
+				"name": "amnt",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "constructor"
+	}
+]);
+if(!web3.isConnected()) 
+{
+  
+        console.log("Ok");
+        
+      } else {
+        console.log("no");
+      }
+      web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        })
+		var conAddr=abi.at('0x816df16ee77b14112dd4a3b1d74a5f609ef71d1c');
+function transfer(){
+			var a=document.getElementById('d').value;
+			var b=parseInt(document.getElementById('e').value);
+				conAddr.transfer(a,b,function(error,result){
+					if(!error){
+						alert(result);
+					}
+					else{
+						alert("errored");
+					}
+				
+		});
+		}
+function balanceOf(){
+			var g=parseInt(document.getElementById('g').value);
+				conAddr.balanceOf(g,function(error,result){
+					if(!error){
+						alert(result);
+					}
+					else{
+						alert("errored");
+					}
+				
+		});
+		}
+function mint(){
+			var f=parseInt(document.getElementById('f').value);
+				conAddr.mint(f,function(error,result){
+					if(!error){
+						alert(result);
+					}
+					else{
+						alert("errored");
+					}
+				
+		});
+		
+		
+	
+	}
+	
+</script>
+</html>
